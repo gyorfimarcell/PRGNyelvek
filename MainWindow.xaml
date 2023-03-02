@@ -1,0 +1,52 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp6"
+        xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Class="WpfApp6.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Nyelv neve:"/>
+            <TextBox Width="300" x:Name="tbNeve"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <RadioButton Content="fordító"
+                         x:Name="rbFordito"
+                         IsChecked="True"/>
+            <RadioButton Content="interpreter"
+                         x:Name="rbInterpreter"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Nyelvcsalád:"/>
+            <ComboBox x:Name="cbNyelvcsalad" SelectedIndex="0">
+                <local:Nyelvcsaladok>0</local:Nyelvcsaladok>
+                <local:Nyelvcsaladok>1</local:Nyelvcsaladok>
+                <local:Nyelvcsaladok>2</local:Nyelvcsaladok>
+                <local:Nyelvcsaladok>3</local:Nyelvcsaladok>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Megjelenés:"/>
+            <TextBox Width="150" x:Name="tbMegjelenes"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <RadioButton Content="magas szintű"
+                         x:Name="rbMagas"
+                         IsChecked="True"/>
+            <RadioButton Content="alacsony szintű"
+                         x:Name="rbAlacsony"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Népszerűség"/>
+            <Slider Width="300"
+                    x:Name="slNepszeruseg"
+                    Minimum="1"/>
+        </StackPanel>
+        <Button Content="Rögzít" Width="100"
+                HorizontalAlignment="Left"
+                x:Name="btnRogzit" Click="btnRogzit_Click"/>
+    </StackPanel>
+</Window>
