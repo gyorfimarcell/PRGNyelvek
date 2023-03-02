@@ -21,6 +21,8 @@ namespace WpfApp6
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Nyelv> nyelvek;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,32 +31,70 @@ namespace WpfApp6
 
         private void btnRogzit_Click(object sender, RoutedEventArgs e)
         {
-            string neve = tbNeve.Text;
+            string[] mezok = {
+                tbNeve.Text,
+                rbFordito.IsChecked == true ? "1" : "0",
+                (cbNyelvcsalad.SelectedIndex + 1).ToString(),
+                tbMegjelenes.Text,
+                rbMagas.IsChecked == true ? "1" : "0",
+                Convert.ToString(slNepszeruseg.Value)
+            };
 
-            int fordito = 0;
-            if (rbFordito.IsChecked == true)
-            {
-                fordito = 1;
-            }
-
-            int nyelvcsalad = cbNyelvcsalad.SelectedIndex + 1;
-
-            string megjelenesEve = tbMegjelenes.Text;
-
-            int magasSzintu = 0;
-            if (rbMagas.IsChecked == true)
-            {
-                magasSzintu = 1;
-            }
-
-            int nepszeruseg = Convert.ToInt32(slNepszeruseg.Value);
-
-
-            string sor = $"{neve};{fordito};{nyelvcsalad};{megjelenesEve};{magasSzintu};{nepszeruseg}";
+            string sor = String.Join(';', mezok);
 
             StreamWriter iro = new StreamWriter("nyelvek.txt", true);
             iro.WriteLine(sor);
             iro.Close();
+        }
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is TabControl && tabControl.SelectedIndex == 1)
+            {
+                tbMegjelenesSzuro.Text = "";
+                nyelvek = new List<Nyelv>();
+
+                string[] sorok = File.ReadAllLines("nyelvek.txt");
+                foreach (string sor in sorok)
+                {
+                    string[] mezok = sor.Split(';');
+
+                    Nyelv nyelv = new Nyelv(
+                        mezok[0],
+                        mezok[1] == "1",
+                        (Nyelvcsaladok)Int32.Parse(mezok[2]) - 1,
+                        Int32.Parse(mezok[3]),
+                        mezok[4] == "1",
+                        Int32.Parse(mezok[5])
+                    );
+                    nyelvek.Add(nyelv);
+                }
+                dgNyelvek.ItemsSource = nyelvek;
+            }
+        }
+
+        private void tbMegjelenesSzuro_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Szures();
+        }
+
+        private void cbNyelvcsaladSzuro_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (nyelvek != null)
+            {
+                Szures();
+            }
+        }
+
+        private void Szures() {
+
+            int megjelenes = 0;
+            bool megjelenesSzamE = Int32.TryParse(tbMegjelenesSzuro.Text, out megjelenes);
+            dgNyelvek.ItemsSource = nyelvek.Where(
+                x => (!megjelenesSzamE || x.MegjelenesEve == megjelenes) &&
+                     (cbNyelvcsaladSzuro.SelectedIndex == 0 ||
+                        x.Nyelvcsalad == (Nyelvcsaladok)cbNyelvcsaladSzuro.SelectedIndex - 1)
+            );
         }
     }
 }

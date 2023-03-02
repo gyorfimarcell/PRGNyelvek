@@ -7,46 +7,73 @@
         xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Class="WpfApp6.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Nyelv neve:"/>
-            <TextBox Width="300" x:Name="tbNeve"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <RadioButton Content="fordító"
+    <TabControl x:Name="tabControl" SelectionChanged="tabControl_SelectionChanged">
+        <TabItem Header="Bevitel">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Nyelv neve:"/>
+                    <TextBox Width="300" x:Name="tbNeve"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Content="fordító"
                          x:Name="rbFordito"
                          IsChecked="True"/>
-            <RadioButton Content="interpreter"
+                    <RadioButton Content="interpreter"
                          x:Name="rbInterpreter"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Nyelvcsalád:"/>
-            <ComboBox x:Name="cbNyelvcsalad" SelectedIndex="0">
-                <local:Nyelvcsaladok>0</local:Nyelvcsaladok>
-                <local:Nyelvcsaladok>1</local:Nyelvcsaladok>
-                <local:Nyelvcsaladok>2</local:Nyelvcsaladok>
-                <local:Nyelvcsaladok>3</local:Nyelvcsaladok>
-            </ComboBox>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Megjelenés:"/>
-            <TextBox Width="150" x:Name="tbMegjelenes"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <RadioButton Content="magas szintű"
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Nyelvcsalád:"/>
+                    <ComboBox x:Name="cbNyelvcsalad" SelectedIndex="0">
+                        <local:Nyelvcsaladok>0</local:Nyelvcsaladok>
+                        <local:Nyelvcsaladok>1</local:Nyelvcsaladok>
+                        <local:Nyelvcsaladok>2</local:Nyelvcsaladok>
+                        <local:Nyelvcsaladok>3</local:Nyelvcsaladok>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Megjelenés:"/>
+                    <TextBox Width="150" x:Name="tbMegjelenes"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Content="magas szintű"
                          x:Name="rbMagas"
                          IsChecked="True"/>
-            <RadioButton Content="alacsony szintű"
+                    <RadioButton Content="alacsony szintű"
                          x:Name="rbAlacsony"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Népszerűség"/>
-            <Slider Width="300"
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Népszerűség"/>
+                    <Slider Width="300"
                     x:Name="slNepszeruseg"
-                    Minimum="1"/>
-        </StackPanel>
-        <Button Content="Rögzít" Width="100"
+                    Minimum="1"
+                    IsSnapToTickEnabled="True"/>
+                    <Label Content="{Binding Value, ElementName=slNepszeruseg}"/>
+                </StackPanel>
+                <Button Content="Rögzít" Width="100"
                 HorizontalAlignment="Left"
                 x:Name="btnRogzit" Click="btnRogzit_Click"/>
-    </StackPanel>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Nyelvek">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Megjelenés éve:"/>
+                    <TextBox x:Name="tbMegjelenesSzuro" Width="100" TextChanged="tbMegjelenesSzuro_TextChanged" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Nyelvcsalád:"/>
+                    <ComboBox x:Name="cbNyelvcsaladSzuro"
+                              SelectedIndex="0"
+                              SelectionChanged="cbNyelvcsaladSzuro_SelectionChanged">
+                        <System:String>Összes</System:String>
+                        <local:Nyelvcsaladok>0</local:Nyelvcsaladok>
+                        <local:Nyelvcsaladok>1</local:Nyelvcsaladok>
+                        <local:Nyelvcsaladok>2</local:Nyelvcsaladok>
+                        <local:Nyelvcsaladok>3</local:Nyelvcsaladok>
+                    </ComboBox>
+                </StackPanel>
+                <DataGrid x:Name="dgNyelvek"/>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
 </Window>
